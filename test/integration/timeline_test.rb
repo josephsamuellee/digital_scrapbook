@@ -177,4 +177,19 @@ class TimelineTest < ActionDispatch::IntegrationTest
     assert_select ".memory-title", "Taiwan 2026"
     assert_select "img.memory-thumb", count: 0
   end
+
+  test "GET / reindexes an external Markdown title edit" do
+    memory = write_ready_memory(title: "Taiwan")
+    memory.source_pathname.write(
+      Memory::Markdown.serialize(memory.document.with(title: "Taiwan 2026"))
+    )
+
+    get root_path
+
+    assert_response :success
+    assert_select ".memory-title", "Taiwan 2026"
+    assert_select ".memory-item[href=?]", memory_path(memory)
+    assert_equal memory.id, memory.reload.id
+    assert_equal "Taiwan 2026", memory.title
+  end
 end

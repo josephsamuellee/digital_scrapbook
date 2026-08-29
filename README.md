@@ -262,6 +262,11 @@ year axes using leap-year-aware proportional dates. Labels use the
 pre-generated `_thumb.jpg` key photo plus the title. Incomplete drafts
 stay off the Timeline. No `magick` or `heif-convert` runs on Timeline GET.
 
+Timeline, PRESENT, and EDIT GET requests reconcile `memory.md` files under
+the data root into SQLite by stable YAML ID: external metadata edits win,
+moved directories update `source_path`, and orphan folders can be
+imported. Ambiguous identity is logged and not merged by title.
+
 PRESENT is `GET /memories/:id`. View Presentation persists the editor, then
 opens that route when the Memory is ready; otherwise EDIT lists the
 blocking requirements. PRESENT uses pre-generated `_present.jpg`

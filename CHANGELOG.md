@@ -36,6 +36,9 @@ The project is currently in pre-MVP design/implementation.
     year axes with leap-year-aware proportional segments, single-day
     markers, cross-year continuation, and `_thumb` key-photo labels
     linking to PRESENT. Incomplete and unparseable Memories are omitted.
+-   Timeline, PRESENT, and EDIT GET reconcile portable `memory.md` into
+    SQLite by stable YAML ID, including external metadata edits, directory
+    moves, and orphan import. Ambiguous identity is logged, not merged.
 -   Defined Memory Markdown v1 (`docs/formats/memory_markdown_v1.md`)
     and indexed Memories in SQLite beside the data root.
 -   Configurable application data root via `SCRAPBOOK_DATA_ROOT`,

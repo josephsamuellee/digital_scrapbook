@@ -94,6 +94,18 @@ class MemoriesTest < ActionDispatch::IntegrationTest
     assert_select "li", "Choose a key photo."
   end
 
+  test "EDIT opens a Memory after its directory is renamed" do
+    memory = create_draft
+    Memory::Store.write(memory.document.with(title: "Draft"), memory: memory)
+    new_dir = Memory.memories_root.join("#{format("%03d", memory.id)}-8888888888")
+    FileUtils.mv(memory.directory_pathname, new_dir)
+
+    get edit_memory_path(memory)
+    assert_response :success
+    assert_select "input[name='memory[title]'][value=?]", "Draft"
+    assert_equal "memories/#{new_dir.basename}/memory.md", memory.reload.source_path
+  end
+
   test "add page creates a blank heading rather than guessed content" do
     memory = create_draft
 

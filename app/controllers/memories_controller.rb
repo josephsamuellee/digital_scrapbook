@@ -42,6 +42,7 @@ class MemoriesController < ApplicationController
   end
 
   def show
+    Memory::Reconciler.run
     @memory = Memory.find(params[:id])
     unless @memory.source_readable?
       redirect_to root_path, alert: "This Memory's Markdown file is missing."
@@ -145,6 +146,7 @@ class MemoriesController < ApplicationController
   end
 
   def load_for_edit
+    Memory::Reconciler.run
     @memory = Memory.find(params[:id])
     unless @memory.source_readable?
       redirect_to root_path, alert: "This Memory's Markdown file is missing."

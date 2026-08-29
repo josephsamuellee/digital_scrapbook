@@ -101,6 +101,17 @@ class MemoryPresentationsTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "PRESENT opens a Memory after its directory is renamed" do
+    memory = create_ready_memory
+    new_dir = Memory.memories_root.join("#{format("%03d", memory.id)}-8888888888")
+    FileUtils.mv(memory.directory_pathname, new_dir)
+
+    get memory_path(memory)
+    assert_response :success
+    assert_select "h1", "Taiwan 2026"
+    assert_equal "memories/#{new_dir.basename}/memory.md", memory.reload.source_path
+  end
+
   private
 
   def create_draft

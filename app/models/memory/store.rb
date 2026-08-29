@@ -45,6 +45,7 @@ class Memory::Store
     digest = Digest::SHA256.hexdigest(path.binread)
     return memory if memory.source_fingerprint == digest
 
+    Rails.logger.info("Reindexed Memory #{memory.id} from Markdown at #{memory.source_path}")
     index!(memory, document, path)
   end
 
@@ -61,7 +62,6 @@ class Memory::Store
     memory.save!
     memory
   end
-  private_class_method :index!
 
   def self.stale?(memory, expected_fingerprint)
     expected_fingerprint.present? && current_digest(memory) != expected_fingerprint
