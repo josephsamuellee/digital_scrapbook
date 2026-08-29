@@ -64,3 +64,61 @@ a {
   background: var(--fg);
   color: var(--bg);
 }
+
+form.button_to {
+  display: inline;
+  margin: 0;
+}
+
+button.text-action {
+  background: none;
+  border: 0;
+  color: var(--accent);
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+  text-decoration: underline;
+}
+
+.flash-alert,
+.readiness-errors {
+  color: var(--fg);
+}
+
+.memory-edit fieldset {
+  border: 1px solid var(--muted);
+  margin: 0 0 1rem;
+  padding: 0.75rem 1rem 1rem;
+}
+
+.memory-edit legend {
+  padding: 0 0.35rem;
+}
+
+.memory-edit p {
+  margin: 0.75rem 0 0;
+}
+
+.memory-edit label,
+.memory-edit .field-label {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.memory-edit input[type="text"],
+.memory-edit input[type="date"] {
+  background: var(--bg);
+  border: 1px solid var(--muted);
+  color: inherit;
+  font: inherit;
+  max-width: 100%;
+  padding: 0.25rem 0.4rem;
+}
+
+.placeholder-note {
+  color: var(--muted);
+}
+
+.readiness-errors ul {
+  margin: 0.35rem 0 0;
+}

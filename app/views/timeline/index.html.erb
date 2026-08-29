@@ -6,7 +6,11 @@
   <p>No memories yet.</p>
 
   <nav class="timeline-actions" aria-label="Timeline actions">
-    <%= link_to "Add Memory", new_memory_path %>
+    <%= button_to "Add Memory", memories_path, method: :post, class: "text-action" %>
+
+    <% if @continue_draft %>
+      <%= link_to "Continue Draft", continue_memories_path %>
+    <% end %>
 
     <div class="appearance-control" data-appearance-control>
       <span>Appearance</span>

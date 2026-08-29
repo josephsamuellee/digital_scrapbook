@@ -257,9 +257,8 @@ code.
 
 `bin/setup` installs gems, creates the data root, and prepares SQLite.
 
-Image processing is not required for this empty-Timeline slice. Later
-EDIT/upload work will use the Pi's existing `magick` and `heif-convert`
-commands.
+Image processing is not required for draft allocation. Later EDIT/upload
+work will use the Pi's existing `magick` and `heif-convert` commands.
 
 Keep these commands current as the application develops.
 

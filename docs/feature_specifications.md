@@ -185,9 +185,14 @@ Do not introduce horizontal scrolling for one year.
 After the oldest rendered year, display:
 
 - `Add Memory`;
+- `Continue Draft`, when at least one incomplete draft exists;
 - Dark/Light appearance control.
 
-`Add Memory` navigates to EDIT in new-Memory state.
+`Add Memory` navigates to EDIT in new-Memory state. When an incomplete
+draft already exists, Add Memory warns and offers Continue Draft or
+Create Another.
+
+`Continue Draft` opens the most recently modified incomplete draft.
 
 Theme preference persists in the browser.
 

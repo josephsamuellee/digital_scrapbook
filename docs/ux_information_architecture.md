@@ -275,7 +275,8 @@ The exact geometry belongs in annotated wireframes.
 Administrative/system controls belong at the bottom of the Timeline, after the oldest year:
 
 1. `Add Memory`
-2. appearance/theme control
+2. `Continue Draft`, when at least one incomplete draft exists
+3. appearance/theme control
 
 The appearance preference persists locally in the browser.
 
@@ -707,6 +708,14 @@ Editing should not be interrupted by routine persistence.
 ### 10.7 PRESENT in wrong orientation
 
 On a phone in portrait orientation, PRESENT displays a rotate-device overlay rather than a portrait reflow of the Memory Page.
+
+### 10.8 Incomplete draft
+
+Incomplete Memories do not appear as normal Timeline entries.
+
+When at least one exists, Timeline offers `Continue Draft` after the oldest year, next to `Add Memory`.
+
+`Add Memory` warns that an unfinished Memory exists and offers Continue Draft or Create Another.
 
 ---
 

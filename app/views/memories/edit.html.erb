@@ -1,0 +1,56 @@
+<% content_for :title, @document.title.presence || "Edit Memory" %>
+
+<main class="memory-edit">
+  <h1>Edit Memory</h1>
+
+  <%= form_with model: @memory, url: memory_path(@memory), method: :patch, class: "memory-metadata" do |form| %>
+    <fieldset>
+      <legend>Memory details</legend>
+
+      <p>
+        <%= form.label :title, "Title" %>
+        <%= form.text_field :title, value: @document.title %>
+      </p>
+
+      <p>
+        <%= form.label :start_date, "Start" %>
+        <%= form.date_field :start_date, value: @document.start_date %>
+      </p>
+
+      <p>
+        <%= form.label :end_date, "End" %>
+        <%= form.date_field :end_date, value: @document.end_date %>
+      </p>
+
+      <p>
+        <%= form.label :subtitle, "Subtitle" %>
+        <%= form.text_field :subtitle, value: @document.subtitle %>
+      </p>
+
+      <p>
+        <span class="field-label">Key photo</span>
+        <span class="placeholder-note">No pictures yet</span>
+      </p>
+    </fieldset>
+
+    <p>
+      <%= form.submit "Update Memory" %>
+    </p>
+  <% end %>
+
+  <% if @show_readiness && @readiness %>
+    <div class="readiness-errors" role="alert">
+      <p>This Memory is not ready to present:</p>
+      <ul>
+        <% @readiness.messages.each do |message| %>
+          <li><%= message.text %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <nav class="timeline-actions" aria-label="Memory actions">
+    <%= link_to "View Presentation", edit_memory_path(@memory, view_presentation: 1) %>
+    <%= link_to "Back to Timeline", root_path %>
+  </nav>
+</main>

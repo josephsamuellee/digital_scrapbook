@@ -4,11 +4,22 @@ require "rails/test_help"
 
 module ActiveSupport
   class TestCase
-    # Run tests in parallel with specified workers
-    parallelize(workers: :number_of_processors)
+    # Memory directories live on the filesystem beside SQLite. Parallel
+    # workers would collide on ID allocation and memory.md paths.
+    parallelize(workers: 1)
 
-    # Fixtures will be added when Memory records exist. None yet.
+    setup do
+      isolate_scrapbook_data
+    end
 
-    # Add more helper methods to be used by all tests here...
+    private
+
+    def isolate_scrapbook_data
+      return unless ActiveRecord::Base.connection.data_source_exists?("memories")
+
+      Memory.delete_all
+      FileUtils.rm_rf(Memory.memories_root)
+      FileUtils.mkdir_p(Memory.memories_root)
+    end
   end
 end

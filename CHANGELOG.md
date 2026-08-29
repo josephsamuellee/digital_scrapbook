@@ -17,6 +17,11 @@ The project is currently in pre-MVP design/implementation.
 -   Empty TIMELINE (`/`) with `Our Memories`, `No memories yet.`, Add
     Memory, and a Dark/Light appearance control persisted in a browser
     cookie.
+-   Add Memory allocates a stable-ID draft directory, writes
+    `memory.md`, and opens metadata EDIT. Incomplete drafts stay off
+    the Timeline and can be resumed with Continue Draft.
+-   Defined Memory Markdown v1 (`docs/formats/memory_markdown_v1.md`)
+    and indexed Memories in SQLite beside the data root.
 -   Configurable application data root via `SCRAPBOOK_DATA_ROOT`,
     defaulting to `storage/scrapbook` in development/test.
 -   Recorded ADRs for the Ruby/Rails pin and `NNN-RANDOM10DIGITS`
