@@ -625,14 +625,13 @@ Then:
 -   the invalid H2 is handled according to the documented Markdown
     sanitization behavior.
 
-## AC-F3-13 --- Upload at cursor
+## AC-F3-13 --- Upload appends to page Markdown
 
 **\[AUTO\]**
 
-Given the user places the editor cursor at a known position\
-And a supported image successfully uploads/processes\
-Then the resulting Markdown image reference is inserted at that cursor
-location.
+Given a supported image successfully uploads/processes\
+Then the resulting Markdown image reference is appended to the
+selected page Markdown.
 
 ## AC-F3-14 --- No persistent image library
 

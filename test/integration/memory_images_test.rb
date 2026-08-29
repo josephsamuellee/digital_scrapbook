@@ -157,17 +157,17 @@ class MemoryImagesTest < ActionDispatch::IntegrationTest
     assert_response :not_found
   end
 
-  test "page editor exposes upload at cursor and title selection does not" do
+  test "page editor exposes upload append control and title selection does not" do
     memory = create_draft_with_page
 
     get edit_memory_path(memory)
     assert_response :success
-    assert_select "label", text: "Add picture at editor cursor", count: 0
+    assert_select "label", text: "Add picture to page Markdown", count: 0
     assert_match "No pictures yet", response.body
 
     get edit_memory_path(memory, page: 1)
     assert_response :success
-    assert_select "label", "Add picture at editor cursor"
+    assert_select "label", "Add picture to page Markdown"
     assert_select "input[type=file][data-action='change->editor#upload']:not([multiple])"
     assert_select "input[type=file][disabled]", count: 0
   end

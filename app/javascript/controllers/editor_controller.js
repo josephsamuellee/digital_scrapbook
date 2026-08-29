@@ -69,7 +69,7 @@ export default class extends Controller {
         return
       }
 
-      this.insertAtCursor(payload.markdown)
+      this.appendToMarkdown(payload.markdown)
       if (this.hasFingerprintTarget && payload.fingerprint) {
         this.fingerprintTarget.value = payload.fingerprint
       }
@@ -86,15 +86,14 @@ export default class extends Controller {
     }
   }
 
-  insertAtCursor(markdown) {
+  appendToMarkdown(markdown) {
     if (!markdown || !this.hasBodyTarget) return
 
     const textarea = this.bodyTarget
-    const start = textarea.selectionStart ?? textarea.value.length
-    const end = textarea.selectionEnd ?? start
     const value = textarea.value
-    textarea.value = value.slice(0, start) + markdown + value.slice(end)
-    const pos = start + markdown.length
+    const separator = value.length === 0 ? "" : (value.endsWith("\n") ? "\n" : "\n\n")
+    textarea.value = value + separator + markdown
+    const pos = textarea.value.length
     textarea.focus()
     textarea.setSelectionRange(pos, pos)
     this.checkHeading()

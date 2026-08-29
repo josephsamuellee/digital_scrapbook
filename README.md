@@ -278,7 +278,7 @@ EDIT image upload uses the production Pi's existing `magick` and
 `heif-convert` commands. JPEG/JPG uploads preserve the original and
 write `_present.jpg` and `_thumb.jpg` at upload time. HEIC uploads keep
 the original and write a normalized JPEG master plus those
-derivatives. Markdown inserted at the editor cursor references the JPEG
+derivatives. Markdown appended to the page Markdown references the JPEG
 (not the HEIC).
 
 Local JPEG image tests require `magick` on `PATH`. HEIC examples skip
@@ -303,6 +303,8 @@ Expected deployment characteristics:
 -   `cloudflared` for external access
 -   Cloudflare authentication boundary
 -   direct trusted-LAN access also supported
+-   Puma serves Propshaft JS/CSS (no nginx; no `assets:precompile`
+    required). See `docs/decisions/003-puma-serves-propshaft-assets.md`.
 
 Application behavior must not require Cloudflare-specific headers
 because direct LAN use is a supported access path.

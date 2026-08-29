@@ -457,7 +457,7 @@ EDIT is primarily desktop-oriented and may vertically scroll.
 9. Drag-and-drop reordering is deferred.
 10. Only one authored page's Markdown is visible/editable at a time.
 11. No separate image library/gallery is included in MVP.
-12. Image upload is initiated from the editor and inserts the resulting Markdown image reference at the current cursor position.
+12. Image upload is initiated from the editor and appends the resulting Markdown image reference to the page Markdown.
 13. Autosave status is quiet and placed near `View Presentation`.
 14. No routine manual Save button is required.
 
@@ -554,17 +554,16 @@ Markdown editor
 │ [cursor]                                                                   │
 └────────────────────────────────────────────────────────────────────────────┘
 
-[ Add Picture at Editor Cursor ]
+[ Add Picture to Page Markdown ]
 ```
 
 Interaction intent:
 
-1. User places cursor.
-2. User selects `Add Picture at Editor Cursor`.
-3. User selects a JPG/JPEG from the local computer.
-4. Upload is persisted with its original filename preserved according to Architecture rules.
-5. Presentation derivative is generated after upload/commit processing.
-6. Markdown image reference is inserted at the cursor.
+1. User selects `Add Picture to Page Markdown`.
+2. User selects a JPG/JPEG from the local computer.
+3. Upload is persisted with its original filename preserved according to Architecture rules.
+4. Presentation derivative is generated after upload/commit processing.
+5. Markdown image reference is appended to the page Markdown.
 
 MVP does not provide a visual library of previously uploaded/unused images.
 MVP does not provide per-image deletion.
@@ -678,7 +677,7 @@ When translating these wireframes into the first functional UI, prioritize in th
 3. Reliable Previous/Next/swipe/keyboard navigation.
 4. Functional EDIT metadata + one-page-at-a-time Markdown editing.
 5. Page strip and add/delete/reorder operations.
-6. Image upload and insertion at cursor.
+6. Image upload and append to page Markdown.
 7. Autosave feedback and behavior.
 8. Timeline thumbnails and compact label tuning.
 9. Responsive portrait Timeline.

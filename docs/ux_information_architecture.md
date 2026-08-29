@@ -562,15 +562,14 @@ EDIT allows image upload.
 
 The image action should make its insertion behavior explicit, e.g.:
 
-> **Add picture at editor cursor**
+> **Add picture to page Markdown**
 
 The interaction:
 
-1. user places the text cursor in the selected page editor;
-2. user chooses/uploads an image;
-3. upload is persisted;
-4. derivative generation occurs;
-5. an appropriate Markdown image reference is inserted at the editor cursor.
+1. user chooses/uploads an image from the selected page editor;
+2. upload is persisted;
+3. derivative generation occurs;
+4. an appropriate Markdown image reference is appended to the page Markdown.
 
 The exact Markdown path/reference syntax is not an IA concern.
 
@@ -868,7 +867,7 @@ The following decisions are authoritative for MVP unless explicitly superseded:
 - H2 Markdown boundaries are application-managed.
 - Uploaded images may remain unused indefinitely in MVP.
 - MVP provides no image deletion workflow.
-- Image upload can insert a Markdown reference at the editor cursor.
+- Image upload can append a Markdown reference to the selected page.
 - Key photo is required and editable.
 - EDIT autosaves in the background at least once per minute when changes exist.
 - `View Presentation` explicitly transitions from EDIT to PRESENT.

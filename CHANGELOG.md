@@ -12,6 +12,8 @@ The project is currently in pre-MVP design/implementation.
 
 ### Added
 
+-   Production Puma serves Propshaft JS/CSS so Stimulus/Turbo load
+    without nginx or `rails assets:precompile`.
 -   Bootstrapped a Rails 7.2.3 application on Ruby 4.0.5, matching the
     Raspberry Pi runtime.
 -   Empty TIMELINE (`/`) with `Our Memories`, `No memories yet.`, Add
@@ -23,10 +25,10 @@ The project is currently in pre-MVP design/implementation.
 -   EDIT authors one Memory Page at a time with a page strip, Add
     Page, confirmed delete, Move Earlier/Later, H2 protection, and
     background save.
--   EDIT uploads JPEG/HEIC at the page-editor cursor, writes `_present`
-    and `_thumb` derivatives with `magick` (and `heif-convert` for
-    HEIC) at upload time, and defaults the key photo to the first
-    successful picture.
+-   EDIT uploads JPEG/HEIC, appends the Markdown image reference to the
+    page body, writes `_present` and `_thumb` derivatives with `magick`
+    (and `heif-convert` for HEIC) at upload time, and defaults the key
+    photo to the first successful picture.
 -   View Presentation opens landscape PRESENT (`GET /memories/:id`)
     when a Memory is ready: generated title page, authored H2 pages using
     `_present` derivatives, keyboard/swipe navigation, and a generated

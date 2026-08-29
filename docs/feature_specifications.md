@@ -573,16 +573,15 @@ Provide an upload action associated with the selected page editor.
 
 Expected interaction:
 
-1. user places cursor in Markdown editor;
-2. user invokes image upload;
-3. selects JPEG/JPG or HEIC;
-4. UI indicates processing;
-5. server stores/processes image;
-6. on success, Markdown image reference is inserted at the editor cursor.
+1. user invokes image upload from the selected page editor;
+2. selects JPEG/JPG or HEIC;
+3. UI indicates processing;
+4. server stores/processes image;
+5. on success, Markdown image reference is appended to the page Markdown.
 
 The control label should make insertion behavior understandable, e.g.:
 
-> Add picture at editor cursor
+> Add picture to page Markdown
 
 Exact wording may be refined in implementation.
 
@@ -884,7 +883,7 @@ generate _thumb
 return asset reference
    |
    v
-insert Markdown at cursor
+append Markdown to the page
 ```
 
 ## F5.6 HEIC normalization
@@ -934,7 +933,7 @@ Prevent accidental duplicate submission through the same upload control while th
 Only after required processing succeeds:
 
 - return success to EDIT;
-- insert the Markdown reference at the current editor cursor;
+- append the Markdown reference to the page Markdown;
 - allow the uploaded image to become/default as key photo when applicable.
 
 ## F5.11 Processing failure
@@ -1146,7 +1145,7 @@ EDIT
    |      +-- normalize if required
    |      +-- generate PRESENT derivative
    |      +-- generate thumbnail
-   |      +-- insert Markdown at cursor
+   |      +-- append Markdown to the page
    |
    +-- add/reorder/delete authored pages
    |

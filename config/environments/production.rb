@@ -20,8 +20,13 @@ Rails.application.configure do
   # key such as config/credentials/production.key. This key is used to decrypt credentials (and other encrypted files).
   # config.require_master_key = true
 
-  # Disable serving static files from `public/`, relying on NGINX/Apache to do so instead.
-  # config.public_file_server.enabled = false
+  # Puma is the only HTTP server (LAN :8086 and cloudflared). There is no
+  # nginx in front of Rails, and deploy does not run assets:precompile.
+  # Propshaft::Server is development/test-only by default, so production
+  # HTML would reference /assets/... while those paths 404 through the
+  # router and Stimulus never loads.
+  config.public_file_server.enabled = true
+  config.assets.server = true
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.asset_host = "http://assets.example.com"

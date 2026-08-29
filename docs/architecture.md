@@ -70,7 +70,7 @@ Use JavaScript only for interactions that require it, including:
 - autosave;
 - EDIT page-strip interactions;
 - page reordering controls where necessary;
-- inserting uploaded image references at the editor cursor;
+- appending uploaded image references to the page Markdown;
 - small responsive/interactivity helpers.
 
 Do not introduce React, another SPA framework, or a separate frontend application for MVP.
@@ -688,7 +688,7 @@ generate thumbnail
 return successful asset reference
   |
   v
-insert Markdown image reference at editor cursor
+insert Markdown image reference at the end of the page Markdown
 ```
 
 All processing is synchronous for MVP.
@@ -752,7 +752,10 @@ Architectural requirements:
 - Timeline references thumbnail derivatives;
 - asset URLs should remain stable if static-serving implementation changes later.
 
-MVP may serve controlled assets through Rails if that is operationally simplest.
+MVP may serve application JS/CSS and controlled Memory images through
+Rails/Puma if that is operationally simplest. Production on :8086 has
+no nginx, so Propshaft assets are served by Puma. See
+`docs/decisions/003-puma-serves-propshaft-assets.md`.
 
 The architecture must permit future optimization through a reverse proxy/static file server without requiring Memory Markdown URLs/references to be rewritten.
 
@@ -869,7 +872,7 @@ update SQLite index
 return Saved / error state
 ```
 
-Image upload is a separate synchronous request that returns an asset reference suitable for insertion at the editor cursor.
+Image upload is a separate synchronous request that returns an asset reference suitable for appending to the page Markdown.
 
 ---
 
@@ -1143,7 +1146,7 @@ The following decisions are authoritative for MVP unless explicitly superseded:
 
 - Rails server-rendered application.
 - Raspberry Pi 4 deployment.
-- Rails listens on/supports port `8086`.
+- Puma on :8086 serves Propshaft JS/CSS in production.
 - LAN access at `192.168.12.111:8086`.
 - External traffic arrives through Cloudflare/cloudflared.
 - Cloudflare handles public HTTPS/authentication.
