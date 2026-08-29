@@ -70,14 +70,10 @@ form.button_to {
   margin: 0;
 }
 
-button.text-action {
-  background: none;
-  border: 0;
-  color: var(--accent);
-  cursor: pointer;
-  font: inherit;
-  padding: 0;
-  text-decoration: underline;
+button.text-action:disabled {
+  color: var(--muted);
+  cursor: default;
+  text-decoration: none;
 }
 
 .flash-alert,
@@ -121,4 +117,73 @@ button.text-action {
 
 .readiness-errors ul {
   margin: 0.35rem 0 0;
+}
+
+.page-strip {
+  margin: 1.25rem 0;
+}
+
+.page-strip-items {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding: 0.35rem 0;
+}
+
+.page-strip-item {
+  background: transparent;
+  border: 1px solid var(--muted);
+  color: inherit;
+  cursor: pointer;
+  flex: 0 0 auto;
+  font: inherit;
+  padding: 0.35rem 0.7rem;
+}
+
+.page-strip-item.is-selected {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+.page-editor-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.page-editor-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.memory-edit textarea {
+  background: var(--bg);
+  border: 1px solid var(--muted);
+  color: inherit;
+  font: inherit;
+  max-width: 100%;
+  padding: 0.4rem;
+  width: 100%;
+}
+
+.h2-warning {
+  color: var(--muted);
+  display: none;
+}
+
+.h2-warning.is-visible {
+  display: block;
+}
+
+.editor-footer {
+  align-items: center;
+}
+
+.save-state {
+  color: var(--muted);
+  min-width: 6rem;
 }

@@ -20,6 +20,9 @@ The project is currently in pre-MVP design/implementation.
 -   Add Memory allocates a stable-ID draft directory, writes
     `memory.md`, and opens metadata EDIT. Incomplete drafts stay off
     the Timeline and can be resumed with Continue Draft.
+-   EDIT authors one Memory Page at a time with a page strip, Add
+    Page, confirmed delete, Move Earlier/Later, H2 protection, and
+    background save.
 -   Defined Memory Markdown v1 (`docs/formats/memory_markdown_v1.md`)
     and indexed Memories in SQLite beside the data root.
 -   Configurable application data root via `SCRAPBOOK_DATA_ROOT`,

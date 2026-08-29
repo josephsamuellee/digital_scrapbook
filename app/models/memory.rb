@@ -8,7 +8,7 @@ class Memory < ApplicationRecord
   end
 
   def self.incomplete
-    all.select { |memory| memory.incomplete? }
+    all.select { |memory| memory.source_readable? && memory.incomplete? }
   end
 
   def self.most_recent_incomplete
@@ -31,6 +31,10 @@ class Memory < ApplicationRecord
     return unless source_pathname.exist?
 
     source_pathname.mtime
+  end
+
+  def source_readable?
+    source_pathname.file?
   end
 
   def document

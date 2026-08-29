@@ -1,4 +1,6 @@
 ENV["RAILS_ENV"] ||= "test"
+# Keep test Memory files out of the development data root.
+ENV["SCRAPBOOK_DATA_ROOT"] ||= File.expand_path("../tmp/scrapbook-test", __dir__)
 require_relative "../config/environment"
 require "rails/test_help"
 

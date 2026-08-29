@@ -84,9 +84,28 @@ The remainder of that line is the page heading. A blank heading is
 allowed (`##` with nothing after the marker).
 
 The page body is the text after the heading line until the next H2
-boundary. The application owns H2 boundaries; typed H2 inside a page
-editor must not silently split pages (enforced by EDIT, not by this
-file format).
+boundary. The application owns H2 boundaries.
+
+### H2 inside a page body (EDIT sanitization)
+
+EDIT presents one page at a time. The H2 heading is an
+application-owned field, not typed as `##` in the page body.
+
+If the selected-page **body** contains a line that matches an H2
+boundary (`##` followed by a space or end-of-line, not `###` or
+deeper):
+
+- do not create another Memory Page;
+- strip the `##` marker (and the following space, if any) so the line
+  becomes an ordinary paragraph;
+- keep the rest of that page's body in the same page.
+
+`###` and deeper headings in a page body are left unchanged.
+
+A blank page heading is allowed and serializes as `##` with nothing
+after the marker.
+
+The user must use Add Page to create a new page.
 
 Image references are ordinary Markdown images whose paths are filenames
 inside the same Memory directory:

@@ -57,4 +57,17 @@ class Memory::StoreTest < ActiveSupport::TestCase
 
     assert_equal "Externally edited", memory.title
   end
+
+  test "rejects a write when the expected fingerprint does not match the file" do
+    memory = Memory::Allocator.create!
+    original = memory.source_pathname.read
+
+    assert_raises(Memory::Store::StaleError) do
+      Memory::Store.write(memory.document.with(title: "Nope"), memory: memory, expected_fingerprint: "stale")
+    end
+
+    assert_equal original, memory.source_pathname.read
+    memory.reload
+    assert_nil memory.title
+  end
 end

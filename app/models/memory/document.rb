@@ -23,6 +23,34 @@ class Memory::Document
     )
   end
 
+  def replace_page(index, heading:, body:)
+    new_pages = pages.dup
+    new_pages[index] = Memory::Page.new(
+      heading: Memory::Markdown.sanitize_heading(heading),
+      body: Memory::Markdown.sanitize_page_body(body)
+    )
+    with(pages: new_pages)
+  end
+
+  def add_blank_page
+    with(pages: pages + [Memory::Page.new])
+  end
+
+  def delete_page_at(index)
+    new_pages = pages.dup
+    new_pages.delete_at(index)
+    with(pages: new_pages)
+  end
+
+  def move_page(index, delta)
+    destination = index + delta
+    return [self, index] if destination.negative? || destination >= pages.size
+
+    new_pages = pages.dup
+    new_pages[index], new_pages[destination] = new_pages[destination], new_pages[index]
+    [with(pages: new_pages), destination]
+  end
+
   def ==(other)
     other.is_a?(self.class) &&
       id == other.id &&

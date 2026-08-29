@@ -3,6 +3,7 @@ class Memory::Markdown
 
   FRONT_MATTER = /\A---[ \t]*\r?\n(.*?)\r?\n---[ \t]*\r?\n?(.*)\z/m
   H2_BOUNDARY = /^##(?!#)(?: |$)/
+  H2_LINE = /\A##(?!#)(?: |\r?\n|\z)/
 
   def self.parse(text)
     match = text.to_s.match(FRONT_MATTER)
@@ -54,6 +55,18 @@ class Memory::Markdown
     "#{parts.join("\n").gsub(/\n{3,}/, "\n\n").rstrip}\n"
   end
 
+  def self.contains_h2?(text)
+    text.to_s.each_line.any? { |line| h2_line?(line) }
+  end
+
+  def self.sanitize_heading(heading)
+    heading.to_s.sub(/\A##(?!#)\s?/, "").rstrip
+  end
+
+  def self.sanitize_page_body(text)
+    text.to_s.each_line.map { |line| sanitize_body_line(line) }.join
+  end
+
   def self.parse_pages(body)
     return [] unless body.match?(H2_BOUNDARY)
 
@@ -68,6 +81,20 @@ class Memory::Markdown
     end
   end
   private_class_method :parse_pages
+
+  def self.h2_line?(line)
+    line.match?(H2_LINE)
+  end
+  private_class_method :h2_line?
+
+  def self.sanitize_body_line(line)
+    return line unless h2_line?(line)
+
+    rest = line[2..]
+    rest = rest[1..] if rest&.start_with?(" ")
+    rest.to_s
+  end
+  private_class_method :sanitize_body_line
 
   def self.coerce_date(value)
     return if value.blank?

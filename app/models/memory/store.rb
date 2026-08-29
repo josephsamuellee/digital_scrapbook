@@ -3,8 +3,13 @@ require "fileutils"
 
 class Memory::Store
   class WriteError < StandardError; end
+  class StaleError < StandardError; end
 
-  def self.write(document, memory:)
+  def self.write(document, memory:, expected_fingerprint: nil)
+    if expected_fingerprint.present? && current_digest(memory) != expected_fingerprint
+      raise StaleError, "Memory changed outside the editor. Reload before continuing."
+    end
+
     path = memory.source_pathname
     dir = path.dirname
     FileUtils.mkdir_p(dir)
@@ -57,4 +62,12 @@ class Memory::Store
     memory
   end
   private_class_method :index!
+
+  def self.current_digest(memory)
+    path = memory.source_pathname
+    return unless path.exist?
+
+    Digest::SHA256.hexdigest(path.binread)
+  end
+  private_class_method :current_digest
 end

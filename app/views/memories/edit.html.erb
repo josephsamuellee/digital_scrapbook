@@ -1,10 +1,18 @@
 <% content_for :title, @document.title.presence || "Edit Memory" %>
 
-<main class="memory-edit">
+<main class="memory-edit"
+      data-controller="editor"
+      data-editor-url-value="<%= memory_path(@memory) %>"
+      data-editor-interval-value="60000">
   <h1>Edit Memory</h1>
 
-  <%= form_with model: @memory, url: memory_path(@memory), method: :patch, class: "memory-metadata" do |form| %>
-    <fieldset>
+  <%= form_with model: @memory, url: memory_path(@memory), method: :patch,
+        class: "memory-metadata",
+        data: { editor_target: "form", action: "input->editor#markDirty change->editor#markDirty" } do |form| %>
+    <%= hidden_field_tag :source_fingerprint, @memory.source_fingerprint, data: { editor_target: "fingerprint" } %>
+    <%= hidden_field_tag :page, @page %>
+
+    <fieldset id="memory-details">
       <legend>Memory details</legend>
 
       <p>
@@ -33,9 +41,66 @@
       </p>
     </fieldset>
 
-    <p>
-      <%= form.submit "Update Memory" %>
-    </p>
+    <div class="page-strip" aria-label="Pages">
+      <span class="field-label">Pages</span>
+      <div class="page-strip-items">
+        <%= button_tag "Title", type: "submit", name: "select_page", value: "title",
+              class: "page-strip-item#{" is-selected" if @page == "title"}",
+              aria: { current: @page == "title" ? "true" : nil } %>
+
+        <% @document.pages.each_with_index do |page, index| %>
+          <% position = index + 1 %>
+          <%= button_tag page.label(position), type: "submit", name: "select_page", value: position,
+                class: "page-strip-item#{" is-selected" if @page == position.to_s}",
+                aria: { current: @page == position.to_s ? "true" : nil } %>
+        <% end %>
+
+        <%= button_tag "Add Page", type: "submit", name: "intent", value: "add_page", class: "page-strip-item page-strip-add" %>
+      </div>
+    </div>
+
+    <% if @selected_page %>
+      <section class="page-editor" aria-label="Selected page">
+        <div class="page-editor-toolbar">
+          <p class="field-label"><%= @selected_page.label(@page.to_i) %></p>
+          <div class="page-editor-actions">
+            <%= button_tag "Move Earlier", type: "submit", name: "intent", value: "move_earlier",
+                  class: "text-action", disabled: first_authored_page? %>
+            <%= button_tag "Move Later", type: "submit", name: "intent", value: "move_later",
+                  class: "text-action", disabled: last_authored_page? %>
+            <% if @confirming_delete %>
+              <%= hidden_field_tag :confirm_delete, "1" %>
+              <%= button_tag "Confirm delete", type: "submit", name: "intent", value: "delete_page", class: "text-action" %>
+              <%= link_to "Cancel", edit_memory_path(@memory, page: @page) %>
+            <% else %>
+              <%= button_tag "Delete Page", type: "submit", name: "intent", value: "request_delete", class: "text-action" %>
+            <% end %>
+          </div>
+        </div>
+
+        <p>
+          <%= label_tag "memory_page_heading", "Page heading" %>
+          <%= text_field_tag "memory[page_heading]", @selected_page.heading, id: "memory_page_heading" %>
+        </p>
+
+        <p>
+          <%= label_tag "memory_page_body", "Page Markdown" %>
+          <%= text_area_tag "memory[page_body]", @selected_page.body, id: "memory_page_body",
+                rows: 12, data: { editor_target: "body", action: "input->editor#checkHeading" } %>
+        </p>
+
+        <p class="h2-warning<%= " is-visible" if @h2_warning %>" data-editor-target="h2Warning" role="status">
+          Level-2 headings define Memory Pages and are not allowed inside a page.
+          This heading will be removed or converted when saved.
+        </p>
+      </section>
+    <% end %>
+
+    <nav class="timeline-actions editor-footer" aria-label="Memory actions">
+      <span class="save-state" data-editor-target="status">Saved</span>
+      <%= button_tag "View Presentation", type: "submit", name: "view_presentation", value: "1", class: "text-action" %>
+      <%= link_to "Back to Timeline", root_path %>
+    </nav>
   <% end %>
 
   <% if @show_readiness && @readiness %>
@@ -48,9 +113,4 @@
       </ul>
     </div>
   <% end %>
-
-  <nav class="timeline-actions" aria-label="Memory actions">
-    <%= link_to "View Presentation", edit_memory_path(@memory, view_presentation: 1) %>
-    <%= link_to "Back to Timeline", root_path %>
-  </nav>
 </main>

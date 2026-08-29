@@ -80,4 +80,15 @@ class Memory::MarkdownTest < ActiveSupport::TestCase
       Memory::Markdown.parse("# Taiwan\n")
     end
   end
+
+  test "sanitizes H2 lines in a page body without creating pages" do
+    body = "- Hello\n\n## Not a new page\n### still a heading\n"
+    sanitized = Memory::Markdown.sanitize_page_body(body)
+
+    assert Memory::Markdown.contains_h2?(body)
+    refute Memory::Markdown.contains_h2?(sanitized)
+    assert_includes sanitized, "Not a new page"
+    assert_includes sanitized, "### still a heading"
+    refute_includes sanitized, "## Not"
+  end
 end
