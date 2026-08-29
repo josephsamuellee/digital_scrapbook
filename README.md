@@ -260,7 +260,9 @@ code.
 TIMELINE (`GET /`) lists PRESENT-ready Memories on reverse-chronological
 year axes using leap-year-aware proportional dates. Labels use the
 pre-generated `_thumb.jpg` key photo plus the title. Incomplete drafts
-stay off the Timeline. No `magick` or `heif-convert` runs on Timeline GET.
+stay off the Timeline. Timeline remains usable in phone portrait without
+rotation; each year fits the viewport width without horizontal scrolling.
+No `magick` or `heif-convert` runs on Timeline GET.
 
 Timeline, PRESENT, and EDIT GET requests reconcile `memory.md` files under
 the data root into SQLite by stable YAML ID: external metadata edits win,

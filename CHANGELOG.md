@@ -36,6 +36,8 @@ The project is currently in pre-MVP design/implementation.
     year axes with leap-year-aware proportional segments, single-day
     markers, cross-year continuation, and `_thumb` key-photo labels
     linking to PRESENT. Incomplete and unparseable Memories are omitted.
+    Portrait compresses labels without requiring rotation or horizontal
+    year scrolling.
 -   Timeline, PRESENT, and EDIT GET reconcile portable `memory.md` into
     SQLite by stable YAML ID, including external metadata edits, directory
     moves, and orphan import. Ambiguous identity is logged, not merged.
