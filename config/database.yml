@@ -1,0 +1,23 @@
+# SQLite lives under the application data root so Memories and the
+# index stay together. Override with SCRAPBOOK_DATA_ROOT.
+#
+#   gem "sqlite3"
+#
+<% data_root = ENV.fetch("SCRAPBOOK_DATA_ROOT") { "storage/scrapbook" } %>
+
+default: &default
+  adapter: sqlite3
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
+
+development:
+  <<: *default
+  database: <%= File.join(data_root, "development.sqlite3") %>
+
+test:
+  <<: *default
+  database: <%= File.join(data_root, "test.sqlite3") %>
+
+production:
+  <<: *default
+  database: <%= File.join(data_root, "production.sqlite3") %>

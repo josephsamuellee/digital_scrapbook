@@ -1,0 +1,82 @@
+<% content_for :title, "Our Memories" %>
+
+<main class="timeline">
+  <h1>Our Memories</h1>
+
+  <% if @years.empty? %>
+    <p>No memories yet.</p>
+  <% else %>
+    <% @years.each do |year| %>
+      <section class="year-axis" data-year="<%= year.year %>" style="--lanes: <%= year.lane_count %>">
+        <h2 class="year-heading"><%= year.year %></h2>
+        <div class="year-track">
+          <div class="year-line" aria-hidden="true">
+            <% year.quarters.each do |label, pct| %>
+              <span class="quarter-tick" style="left: <%= (pct * 100).round(4) %>%"><%= label %></span>
+            <% end %>
+          </div>
+
+          <% year.placements.each do |placement| %>
+            <%= link_to memory_path(placement.memory),
+                  class: [
+                    "memory-item",
+                    "is-#{placement.kind}",
+                    placement.primary ? "is-primary" : "is-continuation",
+                    ("is-q4-continuation" if placement.compact_thumb)
+                  ].compact.join(" "),
+                  style: "left: #{placement.css_start}; width: #{placement.point? ? "0" : placement.css_width}; --lane: #{placement.lane}",
+                  aria: { label: placement.title },
+                  data: {
+                    memory_id: placement.memory.id,
+                    kind: placement.kind,
+                    primary: placement.primary,
+                    lane: placement.lane,
+                    start_pct: placement.start_pct.round(6),
+                    end_pct: placement.end_pct.round(6),
+                    mid_pct: placement.mid_pct.round(6)
+                  } do %>
+              <% if placement.point? %>
+                <span class="memory-point"></span>
+              <% else %>
+                <span class="memory-span"></span>
+              <% end %>
+              <% if placement.primary || placement.compact_thumb %>
+                <span class="memory-connector"></span>
+                <span class="memory-label">
+                  <% if placement.thumb? %>
+                    <%= image_tag memory_asset_path(placement.memory, filename: placement.thumb_name),
+                          alt: "",
+                          class: "memory-thumb" %>
+                  <% end %>
+                  <% if placement.primary %>
+                    <span class="memory-title"><%= placement.title %></span>
+                  <% end %>
+                </span>
+              <% end %>
+            <% end %>
+          <% end %>
+        </div>
+      </section>
+    <% end %>
+  <% end %>
+
+  <nav class="timeline-actions" aria-label="Timeline actions">
+    <%= button_to "Add Memory", memories_path, method: :post, class: "text-action" %>
+
+    <% if @continue_draft %>
+      <%= link_to "Continue Draft", continue_memories_path %>
+    <% end %>
+
+    <div class="appearance-control" data-appearance-control>
+      <span>Appearance</span>
+      <%= button_to "Dark", appearance_path, method: :post, params: { appearance: "dark" },
+            form: { class: "appearance-form" },
+            class: "appearance-button",
+            "aria-pressed": current_appearance == "dark" %>
+      <%= button_to "Light", appearance_path, method: :post, params: { appearance: "light" },
+            form: { class: "appearance-form" },
+            class: "appearance-button",
+            "aria-pressed": current_appearance == "light" %>
+    </div>
+  </nav>
+</main>

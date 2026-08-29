@@ -1,0 +1,15 @@
+<% content_for :title, "Add Memory" %>
+
+<main class="memory-edit">
+  <h1>Add Memory</h1>
+
+  <p>An unfinished Memory already exists.</p>
+
+  <nav class="timeline-actions" aria-label="Draft actions">
+    <%= link_to "Continue Draft", continue_memories_path %>
+    <%= button_to "Create Another", memories_path, method: :post,
+          params: { create_another: true },
+          class: "text-action" %>
+    <%= link_to "Back to Timeline", root_path %>
+  </nav>
+</main>

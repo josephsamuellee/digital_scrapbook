@@ -1,0 +1,531 @@
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #111111;
+  --fg: #ececec;
+  --muted: #b3b3b3;
+  --accent: #d7d7d7;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f4f1ea;
+  --fg: #161616;
+  --muted: #4a4a4a;
+  --accent: #222222;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  line-height: 1.4;
+}
+
+body {
+  padding: 1.5rem;
+}
+
+a {
+  color: var(--accent);
+}
+
+body:has(> .timeline) {
+  padding: 0.85rem 1rem 1rem;
+}
+
+.timeline {
+  --year-row: 4.15rem;
+  --lane-step: 2.75rem;
+  overflow-x: hidden;
+}
+
+.timeline h1 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 0.65rem;
+}
+
+.year-axis {
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr);
+  gap: 0.2rem 0.5rem;
+  margin: 0 0 0.6rem;
+  overflow-x: hidden;
+}
+
+.year-heading {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.year-track {
+  position: relative;
+  width: 100%;
+  min-height: calc(var(--year-row) + (var(--lanes, 1) - 1) * var(--lane-step));
+  overflow-x: hidden;
+}
+
+.year-line {
+  position: relative;
+  height: 0.5rem;
+  border-bottom: 1px solid var(--muted);
+}
+
+.quarter-tick {
+  position: absolute;
+  top: 0.6rem;
+  color: var(--muted);
+  font-size: 0.68rem;
+  transform: translateX(-50%);
+}
+
+.memory-item {
+  position: absolute;
+  top: 0.22rem;
+  min-height: calc(3.5rem + var(--lane, 0) * var(--lane-step));
+  color: inherit;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+.memory-item.is-point {
+  min-width: 2.5rem;
+  transform: translateX(-50%);
+}
+
+.memory-item::before {
+  content: "";
+  position: absolute;
+  inset: -0.55rem -0.7rem 0;
+}
+
+.memory-span {
+  display: block;
+  height: 0.28rem;
+  background: var(--fg);
+  min-width: 0.55rem;
+}
+
+.memory-point {
+  display: block;
+  width: 0.55rem;
+  height: 0.55rem;
+  margin: -0.12rem auto 0;
+  background: var(--fg);
+  border-radius: 50%;
+}
+
+.memory-connector {
+  position: absolute;
+  left: 50%;
+  top: 0.32rem;
+  width: 1px;
+  height: calc(0.7rem + var(--lane, 0) * var(--lane-step));
+  background: var(--muted);
+}
+
+.memory-label {
+  position: absolute;
+  left: 50%;
+  top: calc(1.05rem + var(--lane, 0) * var(--lane-step));
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  max-width: 11rem;
+  transform: translateX(-50%);
+}
+
+.memory-item.is-q4-continuation .memory-connector,
+.memory-item.is-q4-continuation .memory-label {
+  left: 100%;
+  transform: translateX(-100%);
+}
+
+.memory-thumb {
+  display: block;
+  height: 2.35em;
+  width: auto;
+}
+
+.memory-title {
+  font-size: 0.85rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.memory-item.is-continuation .memory-span,
+.memory-item.is-continuation .memory-point {
+  opacity: 0.55;
+}
+
+.memory-item.is-continuation .memory-thumb {
+  height: 1.55em;
+}
+
+.timeline-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 1.5rem;
+  align-items: center;
+  margin-top: 1.1rem;
+}
+
+.appearance-control {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+  align-items: center;
+}
+
+.appearance-form {
+  display: inline;
+  margin: 0;
+}
+
+.appearance-button {
+  background: transparent;
+  color: inherit;
+  border: 1px solid currentColor;
+  padding: 0.25rem 0.6rem;
+}
+
+.appearance-button[aria-pressed="true"] {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+form.button_to {
+  display: inline;
+  margin: 0;
+}
+
+button.text-action:disabled {
+  color: var(--muted);
+  cursor: default;
+  text-decoration: none;
+}
+
+.flash-alert,
+.readiness-errors {
+  color: var(--fg);
+}
+
+.memory-edit fieldset {
+  border: 1px solid var(--muted);
+  margin: 0 0 1rem;
+  padding: 0.75rem 1rem 1rem;
+}
+
+.memory-edit legend {
+  padding: 0 0.35rem;
+}
+
+.memory-edit p {
+  margin: 0.75rem 0 0;
+}
+
+.memory-edit label,
+.memory-edit .field-label {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.memory-edit input[type="text"],
+.memory-edit input[type="date"],
+.memory-edit select {
+  background: var(--bg);
+  border: 1px solid var(--muted);
+  color: inherit;
+  font: inherit;
+  max-width: 100%;
+  padding: 0.25rem 0.4rem;
+}
+
+.placeholder-note,
+.upload-status {
+  color: var(--muted);
+}
+
+.upload-status {
+  margin-left: 0.5rem;
+}
+
+.picture-upload input[type="file"]:disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+
+.readiness-errors ul {
+  margin: 0.35rem 0 0;
+}
+
+.page-strip {
+  margin: 1.25rem 0;
+}
+
+.page-strip-items {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding: 0.35rem 0;
+}
+
+.page-strip-item {
+  background: transparent;
+  border: 1px solid var(--muted);
+  color: inherit;
+  cursor: pointer;
+  flex: 0 0 auto;
+  font: inherit;
+  padding: 0.35rem 0.7rem;
+}
+
+.page-strip-item.is-selected {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+.page-editor-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.page-editor-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.memory-edit textarea {
+  background: var(--bg);
+  border: 1px solid var(--muted);
+  color: inherit;
+  font: inherit;
+  max-width: 100%;
+  padding: 0.4rem;
+  width: 100%;
+}
+
+.h2-warning {
+  color: var(--muted);
+  display: none;
+}
+
+.h2-warning.is-visible {
+  display: block;
+}
+
+.editor-footer {
+  align-items: center;
+}
+
+.save-state {
+  color: var(--muted);
+  min-width: 6rem;
+}
+
+html.is-present,
+body.is-present {
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+.present {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.present-rotate {
+  display: none;
+}
+
+.present-stage {
+  position: relative;
+  width: min(100vw, calc(100dvh * 19.5 / 9));
+  height: min(100dvh, calc(100vw * 9 / 19.5));
+  background: var(--bg);
+}
+
+.present-canvas {
+  height: 100%;
+  min-height: 0;
+}
+
+.present-title,
+.present-end {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 8% 10% 14%;
+}
+
+.present-title h1 {
+  font-size: clamp(1.8rem, 5vw, 3.2rem);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  margin: 0;
+}
+
+.present-kicker {
+  margin: 0.75rem 0 0;
+  color: var(--muted);
+}
+
+.present-end-actions {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.present-page {
+  display: flex;
+  height: 100%;
+  min-height: 0;
+  gap: 4%;
+  padding: 6% 6% 12%;
+  box-sizing: border-box;
+}
+
+.present-image,
+.present-image-pair {
+  flex: 1 1 62%;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2%;
+}
+
+.present-photo {
+  max-width: 100%;
+  max-height: 90%;
+  object-fit: contain;
+}
+
+.present-image-pair .present-photo {
+  max-width: 48%;
+}
+
+.present-commentary {
+  flex: 1 1 28%;
+  min-width: 0;
+  overflow: auto;
+}
+
+.present-commentary h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.15rem;
+}
+
+.present-commentary ul {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.present-commentary p {
+  margin: 0 0 0.75rem;
+}
+
+.present-commentary img {
+  max-width: 100%;
+  height: auto;
+}
+
+.present-layout-text .present-commentary {
+  flex: 1 1 auto;
+}
+
+.present-nav {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.45rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.25rem;
+}
+
+.present-control {
+  color: inherit;
+  text-decoration: none;
+  font-size: 1.6rem;
+  line-height: 1;
+  padding: 0.2rem 0.4rem;
+}
+
+.present-control.is-disabled {
+  color: var(--muted);
+  opacity: 0.45;
+}
+
+.present-position {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+@media (orientation: portrait) {
+  .timeline {
+    --year-row: 3.45rem;
+    --lane-step: 2.3rem;
+  }
+
+  .timeline .year-axis {
+    grid-template-columns: 2.5rem minmax(0, 1fr);
+    gap: 0.15rem 0.35rem;
+    margin: 0 0 0.5rem;
+  }
+
+  .timeline .year-heading {
+    font-size: 0.8rem;
+  }
+
+  .timeline .quarter-tick {
+    font-size: 0.6rem;
+  }
+
+  .timeline .memory-label {
+    max-width: 8.5rem;
+    gap: 0.25rem;
+  }
+
+  .timeline .memory-thumb {
+    height: 1.65em;
+  }
+
+  .timeline .memory-title {
+    font-size: 0.75rem;
+  }
+
+  .timeline .memory-item.is-continuation .memory-thumb {
+    height: 1.25em;
+  }
+
+  .present-rotate {
+    display: flex;
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    margin: 0;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg);
+  }
+}

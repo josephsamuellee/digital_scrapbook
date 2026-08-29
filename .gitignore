@@ -1,0 +1,36 @@
+# See https://help.github.com/articles/ignoring-files for more about ignoring files.
+
+/.bundle
+
+/.env*
+!/.env*.erb
+
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+!/tmp/pids/.keep
+
+/tmp/pids/*
+!/tmp/pids/
+!/tmp/pids/.keep
+
+/storage/*
+!/storage/.keep
+
+/config/master.key
+/config/credentials/*.key
+
+# SQLite (databases may live outside /storage when SCRAPBOOK_DATA_ROOT is set)
+*.sqlite3
+*.sqlite3-*
+
+# Application data (Memory markdown, originals, derivatives)
+/memories/
+
+.DS_Store
+**/.DS_Store
+
+/.idea
+*.swp
+*~

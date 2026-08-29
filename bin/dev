@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+port="${PORT:-8086}"
+exec bin/rails server -p "$port" -b "${BIND:-0.0.0.0}"
