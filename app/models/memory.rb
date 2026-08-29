@@ -7,8 +7,33 @@ class Memory < ApplicationRecord
     data_root.join("memories")
   end
 
+  def self.with_parsed_documents(records = all)
+    records.filter_map do |memory|
+      next unless memory.source_readable?
+
+      begin
+        document = memory.document
+        Memory::Store.reindex_if_stale(memory, document)
+        [memory, document]
+      rescue Memory::Markdown::ParseError, Errno::ENOENT => error
+        Rails.logger.error("Memory #{memory.id} could not be loaded: #{error.message}")
+        nil
+      end
+    end
+  end
+
+  def self.presentable(records = all)
+    with_parsed_documents(records).select do |memory, document|
+      Memory::Readiness.new(document, directory: memory.directory_pathname).ready?
+    end
+  end
+
   def self.incomplete
-    all.select { |memory| memory.source_readable? && memory.incomplete? }
+    with_parsed_documents.filter_map do |memory, document|
+      next if Memory::Readiness.new(document, directory: memory.directory_pathname).ready?
+
+      memory
+    end
   end
 
   def self.most_recent_incomplete

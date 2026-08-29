@@ -109,22 +109,12 @@ class MemoryPresentationsTest < ActionDispatch::IntegrationTest
   end
 
   def create_ready_memory(subtitle: "Taiwan and Hong Kong", pages: nil)
-    memory = create_draft
-    jpeg = file_fixture("sample.jpg").binread
-    memory.directory_pathname.join("IMG_1234.jpg").binwrite(jpeg)
-    memory.directory_pathname.join("IMG_1234_present.jpg").binwrite(jpeg)
-    document = memory.document.with(
-      title: "Taiwan 2026",
-      start_date: Date.new(2026, 2, 3),
-      end_date: Date.new(2026, 2, 17),
+    write_ready_memory(
       subtitle: subtitle,
-      key_photo: "IMG_1234.jpg",
       pages: pages || [
         Memory::Page.new(heading: "February 4", body: "![Taipei](IMG_1234.jpg)\n\n- Arrived in Taipei")
       ]
     )
-    Memory::Store.write(document, memory: memory)
-    memory.reload
   end
 
   def editor_params(record, intent: nil, page: "title", fields: {})

@@ -257,6 +257,11 @@ code.
 
 `bin/setup` installs gems, creates the data root, and prepares SQLite.
 
+TIMELINE (`GET /`) lists PRESENT-ready Memories on reverse-chronological
+year axes using leap-year-aware proportional dates. Labels use the
+pre-generated `_thumb.jpg` key photo plus the title. Incomplete drafts
+stay off the Timeline. No `magick` or `heif-convert` runs on Timeline GET.
+
 PRESENT is `GET /memories/:id`. View Presentation persists the editor, then
 opens that route when the Memory is ready; otherwise EDIT lists the
 blocking requirements. PRESENT uses pre-generated `_present.jpg`

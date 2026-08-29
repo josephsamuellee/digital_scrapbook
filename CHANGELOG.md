@@ -32,6 +32,10 @@ The project is currently in pre-MVP design/implementation.
     `_present` derivatives, keyboard/swipe navigation, and a generated
     end state. Incomplete Memories stay on EDIT with specific blocking
     messages.
+-   TIMELINE (`/`) places PRESENT-ready Memories on reverse-chronological
+    year axes with leap-year-aware proportional segments, single-day
+    markers, cross-year continuation, and `_thumb` key-photo labels
+    linking to PRESENT. Incomplete and unparseable Memories are omitted.
 -   Defined Memory Markdown v1 (`docs/formats/memory_markdown_v1.md`)
     and indexed Memories in SQLite beside the data root.
 -   Configurable application data root via `SCRAPBOOK_DATA_ROOT`,
