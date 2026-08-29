@@ -1,0 +1,66 @@
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #111111;
+  --fg: #ececec;
+  --muted: #b3b3b3;
+  --accent: #d7d7d7;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f4f1ea;
+  --fg: #161616;
+  --muted: #4a4a4a;
+  --accent: #222222;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  line-height: 1.4;
+}
+
+body {
+  padding: 1.5rem;
+}
+
+a {
+  color: var(--accent);
+}
+
+.timeline-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 1.5rem;
+  align-items: center;
+  margin-top: 1.5rem;
+}
+
+.appearance-control {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+  align-items: center;
+}
+
+.appearance-form {
+  display: inline;
+  margin: 0;
+}
+
+.appearance-button {
+  background: transparent;
+  color: inherit;
+  border: 1px solid currentColor;
+  padding: 0.25rem 0.6rem;
+}
+
+.appearance-button[aria-pressed="true"] {
+  background: var(--fg);
+  color: var(--bg);
+}

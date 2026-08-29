@@ -1,0 +1,23 @@
+<% content_for :title, "Our Memories" %>
+
+<main class="timeline">
+  <h1>Our Memories</h1>
+
+  <p>No memories yet.</p>
+
+  <nav class="timeline-actions" aria-label="Timeline actions">
+    <%= link_to "Add Memory", new_memory_path %>
+
+    <div class="appearance-control" data-appearance-control>
+      <span>Appearance</span>
+      <%= button_to "Dark", appearance_path, method: :post, params: { appearance: "dark" },
+            form: { class: "appearance-form" },
+            class: "appearance-button",
+            "aria-pressed": current_appearance == "dark" %>
+      <%= button_to "Light", appearance_path, method: :post, params: { appearance: "light" },
+            form: { class: "appearance-form" },
+            class: "appearance-button",
+            "aria-pressed": current_appearance == "light" %>
+    </div>
+  </nav>
+</main>
