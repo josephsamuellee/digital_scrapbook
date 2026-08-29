@@ -27,6 +27,11 @@ The project is currently in pre-MVP design/implementation.
     and `_thumb` derivatives with `magick` (and `heif-convert` for
     HEIC) at upload time, and defaults the key photo to the first
     successful picture.
+-   View Presentation opens landscape PRESENT (`GET /memories/:id`)
+    when a Memory is ready: generated title page, authored H2 pages using
+    `_present` derivatives, keyboard/swipe navigation, and a generated
+    end state. Incomplete Memories stay on EDIT with specific blocking
+    messages.
 -   Defined Memory Markdown v1 (`docs/formats/memory_markdown_v1.md`)
     and indexed Memories in SQLite beside the data root.
 -   Configurable application data root via `SCRAPBOOK_DATA_ROOT`,

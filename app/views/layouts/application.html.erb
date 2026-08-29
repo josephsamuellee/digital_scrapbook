@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="<%= current_appearance %>">
+<html lang="en" data-theme="<%= current_appearance %>"<% if content_for?(:body_class) %> class="<%= content_for(:body_class) %>"<% end %>>
   <head>
     <title><%= content_for(:title) || "Digital Scrapbook" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -16,7 +16,7 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
+  <body class="<%= content_for(:body_class) %>">
     <% if flash[:alert] %>
       <p class="flash-alert"><%= flash[:alert] %></p>
     <% end %>

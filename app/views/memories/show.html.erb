@@ -1,0 +1,73 @@
+<% content_for :title, @document.title %>
+<% content_for :body_class, "is-present" %>
+
+<main class="present"
+      data-controller="presentation"
+      data-presentation-prev-url-value="<%= present_url(@state.prev_p).to_s %>"
+      data-presentation-next-url-value="<%= present_url(@state.next_p).to_s %>">
+  <p class="present-rotate" role="status">Rotate the device</p>
+
+  <div class="present-stage">
+    <div class="present-canvas">
+      <% case @state.kind %>
+      <% when :title %>
+        <section class="present-title" aria-label="Title page">
+          <h1><%= @document.title %></h1>
+          <% if @state.kicker.present? %>
+            <p class="present-kicker"><%= @state.kicker %></p>
+          <% end %>
+        </section>
+      <% when :authored %>
+        <section class="present-page present-layout-<%= @state.layout %>" aria-label="<%= @state.heading.presence || "Memory page" %>">
+          <% if @state.layout == :b %>
+            <div class="present-image-pair">
+              <% @state.images.each do |image| %>
+                <%= image_tag present_asset_url(image.filename), alt: image.alt, class: "present-photo" %>
+              <% end %>
+            </div>
+          <% elsif @state.layout == :a %>
+            <div class="present-image">
+              <% @state.images.each do |image| %>
+                <%= image_tag present_asset_url(image.filename), alt: image.alt, class: "present-photo" %>
+              <% end %>
+            </div>
+          <% end %>
+
+          <div class="present-commentary">
+            <% if @state.heading.present? %>
+              <h2><%= @state.heading %></h2>
+            <% end %>
+            <%= present_commentary_html(@state.commentary) %>
+          </div>
+        </section>
+      <% else %>
+        <section class="present-end" aria-label="End of Memory">
+          <nav class="present-end-actions" aria-label="Memory destinations">
+            <%= link_to "Back to Timeline", root_path %>
+            <%= link_to "Edit Memory", edit_memory_path(@memory) %>
+          </nav>
+        </section>
+      <% end %>
+    </div>
+
+    <nav class="present-nav" aria-label="Presentation">
+      <% if @state.prev_p %>
+        <%= link_to "‹", present_url(@state.prev_p), class: "present-control present-prev", aria: { label: "Previous" } %>
+      <% else %>
+        <span class="present-control present-prev is-disabled" aria-disabled="true" aria-label="Previous">‹</span>
+      <% end %>
+
+      <% if @state.position %>
+        <span class="present-position"><%= @state.position %> / <%= @state.counted_total %></span>
+      <% else %>
+        <span class="present-position present-position-empty"></span>
+      <% end %>
+
+      <% if @state.next_p %>
+        <%= link_to "›", present_url(@state.next_p), class: "present-control present-next", aria: { label: "Next" } %>
+      <% else %>
+        <span class="present-control present-next is-disabled" aria-disabled="true" aria-label="Next">›</span>
+      <% end %>
+    </nav>
+  </div>
+</main>

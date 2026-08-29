@@ -257,6 +257,11 @@ code.
 
 `bin/setup` installs gems, creates the data root, and prepares SQLite.
 
+PRESENT is `GET /memories/:id`. View Presentation persists the editor, then
+opens that route when the Memory is ready; otherwise EDIT lists the
+blocking requirements. PRESENT uses pre-generated `_present.jpg`
+derivatives and does not run `magick` or `heif-convert` on GET.
+
 EDIT image upload uses the production Pi's existing `magick` and
 `heif-convert` commands. JPEG/JPG uploads preserve the original and
 write `_present.jpg` and `_thumb.jpg` at upload time. HEIC uploads keep

@@ -41,6 +41,25 @@ class MemoriesController < ApplicationController
     @confirming_delete = params[:confirming_delete].present?
   end
 
+  def show
+    @memory = Memory.find(params[:id])
+    unless @memory.source_readable?
+      redirect_to root_path, alert: "This Memory's Markdown file is missing."
+      return
+    end
+
+    @document = @memory.document
+    Memory::Store.reindex_if_stale(@memory, @document)
+    readiness = Memory::Readiness.new(@document, directory: @memory.directory_pathname)
+    unless readiness.ready?
+      redirect_to edit_memory_path(@memory, view_presentation: 1)
+      return
+    end
+
+    @presentation = Memory::Presentation.new(@document, directory: @memory.directory_pathname)
+    @state = @presentation.state_at(params[:p])
+  end
+
   def update
     @memory = Memory.find(params[:id])
     unless @memory.source_readable?
@@ -88,7 +107,7 @@ class MemoriesController < ApplicationController
     persist_document!
 
     respond_to do |format|
-      format.html { redirect_to edit_redirect_path(view_presentation: params[:view_presentation].presence) }
+      format.html { redirect_to after_update_path }
       format.json do
         render json: {
           status: "saved",
@@ -148,17 +167,18 @@ class MemoriesController < ApplicationController
   end
 
   def apply_metadata
-    attrs = {
-      title: memory_params[:title],
-      start_date: parse_date(memory_params[:start_date]),
-      end_date: parse_date(memory_params[:end_date]),
-      subtitle: memory_params[:subtitle]
-    }
-    selected = memory_params[:key_photo].to_s
-    if selected.present? && @memory.original_jpeg_names.include?(selected)
-      attrs[:key_photo] = selected
+    attrs = {}
+    attrs[:title] = memory_params[:title] if memory_params.key?(:title)
+    attrs[:start_date] = parse_date(memory_params[:start_date]) if memory_params.key?(:start_date)
+    attrs[:end_date] = parse_date(memory_params[:end_date]) if memory_params.key?(:end_date)
+    attrs[:subtitle] = memory_params[:subtitle] if memory_params.key?(:subtitle)
+    if memory_params.key?(:key_photo)
+      selected = memory_params[:key_photo].to_s
+      if selected.present? && @memory.original_jpeg_names.include?(selected)
+        attrs[:key_photo] = selected
+      end
     end
-    @document = @document.with(**attrs)
+    @document = @document.with(**attrs) if attrs.any?
   end
 
   def apply_selected_page_fields
@@ -192,6 +212,32 @@ class MemoriesController < ApplicationController
 
     index
   end
+
+  def after_update_path
+    if params[:view_presentation].present?
+      readiness = Memory::Readiness.new(@document, directory: @memory.directory_pathname)
+      if readiness.ready?
+        return memory_path(@memory)
+      end
+
+      return edit_redirect_path(view_presentation: 1)
+    end
+
+    edit_redirect_path
+  end
+
+  def present_url(p)
+    return if p.nil?
+    return memory_path(@memory) if p.zero?
+
+    memory_path(@memory, p: p)
+  end
+  helper_method :present_url
+
+  def present_asset_url(filename)
+    memory_asset_path(@memory, filename: filename)
+  end
+  helper_method :present_asset_url
 
   def edit_redirect_path(extra = {})
     options = extra.compact

@@ -198,3 +198,162 @@ button.text-action:disabled {
   color: var(--muted);
   min-width: 6rem;
 }
+
+html.is-present,
+body.is-present {
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+.present {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.present-rotate {
+  display: none;
+}
+
+.present-stage {
+  position: relative;
+  width: min(100vw, calc(100dvh * 19.5 / 9));
+  height: min(100dvh, calc(100vw * 9 / 19.5));
+  background: var(--bg);
+}
+
+.present-canvas {
+  height: 100%;
+  min-height: 0;
+}
+
+.present-title,
+.present-end {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 8% 10% 14%;
+}
+
+.present-title h1 {
+  font-size: clamp(1.8rem, 5vw, 3.2rem);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  margin: 0;
+}
+
+.present-kicker {
+  margin: 0.75rem 0 0;
+  color: var(--muted);
+}
+
+.present-end-actions {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.present-page {
+  display: flex;
+  height: 100%;
+  min-height: 0;
+  gap: 4%;
+  padding: 6% 6% 12%;
+  box-sizing: border-box;
+}
+
+.present-image,
+.present-image-pair {
+  flex: 1 1 62%;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2%;
+}
+
+.present-photo {
+  max-width: 100%;
+  max-height: 90%;
+  object-fit: contain;
+}
+
+.present-image-pair .present-photo {
+  max-width: 48%;
+}
+
+.present-commentary {
+  flex: 1 1 28%;
+  min-width: 0;
+  overflow: auto;
+}
+
+.present-commentary h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.15rem;
+}
+
+.present-commentary ul {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.present-commentary p {
+  margin: 0 0 0.75rem;
+}
+
+.present-commentary img {
+  max-width: 100%;
+  height: auto;
+}
+
+.present-layout-text .present-commentary {
+  flex: 1 1 auto;
+}
+
+.present-nav {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.45rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.25rem;
+}
+
+.present-control {
+  color: inherit;
+  text-decoration: none;
+  font-size: 1.6rem;
+  line-height: 1;
+  padding: 0.2rem 0.4rem;
+}
+
+.present-control.is-disabled {
+  color: var(--muted);
+  opacity: 0.45;
+}
+
+.present-position {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+@media (orientation: portrait) {
+  .present-rotate {
+    display: flex;
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    margin: 0;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg);
+  }
+}
