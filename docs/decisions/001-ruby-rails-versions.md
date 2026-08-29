@@ -26,3 +26,6 @@ Development must use Ruby 4.0.5. Do not move to Rails 8 without an
 explicit decision and a matching production runtime. Prefer stdlib,
 Rails, and existing Pi tools (`magick`, `heif-convert`) before adding
 gems.
+
+Rails 7.2.3's test runner is incompatible with minitest 6, so the
+Gemfile pins `minitest ~> 5.25`.
