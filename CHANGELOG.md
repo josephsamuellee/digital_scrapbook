@@ -23,6 +23,10 @@ The project is currently in pre-MVP design/implementation.
 -   EDIT authors one Memory Page at a time with a page strip, Add
     Page, confirmed delete, Move Earlier/Later, H2 protection, and
     background save.
+-   EDIT uploads JPEG/HEIC at the page-editor cursor, writes `_present`
+    and `_thumb` derivatives with `magick` (and `heif-convert` for
+    HEIC) at upload time, and defaults the key photo to the first
+    successful picture.
 -   Defined Memory Markdown v1 (`docs/formats/memory_markdown_v1.md`)
     and indexed Memories in SQLite beside the data root.
 -   Configurable application data root via `SCRAPBOOK_DATA_ROOT`,

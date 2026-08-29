@@ -135,6 +135,7 @@ class MemoriesController < ApplicationController
     @document = @memory.document
     Memory::Store.reindex_if_stale(@memory, @document)
     @readiness = Memory::Readiness.new(@document, directory: @memory.directory_pathname)
+    @original_jpegs = @memory.original_jpeg_names
     true
   end
 
@@ -147,12 +148,17 @@ class MemoriesController < ApplicationController
   end
 
   def apply_metadata
-    @document = @document.with(
+    attrs = {
       title: memory_params[:title],
       start_date: parse_date(memory_params[:start_date]),
       end_date: parse_date(memory_params[:end_date]),
       subtitle: memory_params[:subtitle]
-    )
+    }
+    selected = memory_params[:key_photo].to_s
+    if selected.present? && @memory.original_jpeg_names.include?(selected)
+      attrs[:key_photo] = selected
+    end
+    @document = @document.with(**attrs)
   end
 
   def apply_selected_page_fields
@@ -195,7 +201,7 @@ class MemoriesController < ApplicationController
   end
 
   def memory_params
-    params.fetch(:memory, {}).permit(:title, :start_date, :end_date, :subtitle, :page_heading, :page_body)
+    params.fetch(:memory, {}).permit(:title, :start_date, :end_date, :subtitle, :key_photo, :page_heading, :page_body)
   end
 
   def parse_date(value)

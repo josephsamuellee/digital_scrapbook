@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   post "appearance", to: "appearances#update", as: :appearance
   resources :memories, only: %i[new create edit update] do
     collection { get :continue }
+    resources :images, only: :create, module: :memories
+    get "assets/*filename", to: "memories/assets#show", as: :asset, format: false
   end
 
   root "timeline#index"

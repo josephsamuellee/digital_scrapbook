@@ -63,6 +63,10 @@ class Memory::Store
   end
   private_class_method :index!
 
+  def self.stale?(memory, expected_fingerprint)
+    expected_fingerprint.present? && current_digest(memory) != expected_fingerprint
+  end
+
   def self.current_digest(memory)
     path = memory.source_pathname
     return unless path.exist?

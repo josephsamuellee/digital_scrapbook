@@ -102,7 +102,8 @@ button.text-action:disabled {
 }
 
 .memory-edit input[type="text"],
-.memory-edit input[type="date"] {
+.memory-edit input[type="date"],
+.memory-edit select {
   background: var(--bg);
   border: 1px solid var(--muted);
   color: inherit;
@@ -111,8 +112,18 @@ button.text-action:disabled {
   padding: 0.25rem 0.4rem;
 }
 
-.placeholder-note {
+.placeholder-note,
+.upload-status {
   color: var(--muted);
+}
+
+.upload-status {
+  margin-left: 0.5rem;
+}
+
+.picture-upload input[type="file"]:disabled {
+  cursor: default;
+  opacity: 0.7;
 }
 
 .readiness-errors ul {

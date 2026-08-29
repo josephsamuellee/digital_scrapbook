@@ -3,6 +3,7 @@
 <main class="memory-edit"
       data-controller="editor"
       data-editor-url-value="<%= memory_path(@memory) %>"
+      data-editor-upload-url-value="<%= memory_images_path(@memory) %>"
       data-editor-interval-value="60000">
   <h1>Edit Memory</h1>
 
@@ -37,7 +38,15 @@
 
       <p>
         <span class="field-label">Key photo</span>
-        <span class="placeholder-note">No pictures yet</span>
+        <% if @original_jpegs.empty? %>
+          <span class="placeholder-note" data-editor-target="keyPhotoPlaceholder">No pictures yet</span>
+        <% end %>
+        <%= form.select :key_photo,
+              options_for_select(@original_jpegs, @document.key_photo),
+              { include_blank: @original_jpegs.empty? ? "No pictures yet" : false },
+              data: { editor_target: "keyPhoto" },
+              class: "key-photo-select",
+              hidden: @original_jpegs.empty? %>
       </p>
     </fieldset>
 
@@ -87,6 +96,16 @@
           <%= label_tag "memory_page_body", "Page Markdown" %>
           <%= text_area_tag "memory[page_body]", @selected_page.body, id: "memory_page_body",
                 rows: 12, data: { editor_target: "body", action: "input->editor#checkHeading" } %>
+        </p>
+
+        <p class="picture-upload">
+          <%= label_tag "memory_image", "Add picture at editor cursor" %>
+          <input type="file"
+                 id="memory_image"
+                 accept=".jpg,.jpeg,.heic,.JPG,.JPEG,.HEIC,image/jpeg,image/heic"
+                 data-editor-target="upload"
+                 data-action="change->editor#upload">
+          <span class="upload-status" data-editor-target="uploadStatus" role="status"></span>
         </p>
 
         <p class="h2-warning<%= " is-visible" if @h2_warning %>" data-editor-target="h2Warning" role="status">

@@ -257,8 +257,21 @@ code.
 
 `bin/setup` installs gems, creates the data root, and prepares SQLite.
 
-Image processing is not required for draft allocation. Later EDIT/upload
-work will use the Pi's existing `magick` and `heif-convert` commands.
+EDIT image upload uses the production Pi's existing `magick` and
+`heif-convert` commands. JPEG/JPG uploads preserve the original and
+write `_present.jpg` and `_thumb.jpg` at upload time. HEIC uploads keep
+the original and write a normalized JPEG master plus those
+derivatives. Markdown inserted at the editor cursor references the JPEG
+(not the HEIC).
+
+Local JPEG image tests require `magick` on `PATH`. HEIC examples skip
+unless `heif-convert` is installed. On macOS:
+
+``` bash
+brew install imagemagick
+# optional, for HEIC tests and local HEIC uploads:
+brew install libheif
+```
 
 Keep these commands current as the application develops.
 

@@ -51,4 +51,18 @@ class Memory < ApplicationRecord
   def incomplete?
     !present_ready?
   end
+
+  def original_jpeg_names
+    return [] unless directory_pathname.directory?
+
+    directory_pathname.children.filter_map do |path|
+      next unless path.file?
+
+      name = path.basename.to_s
+      next unless name.match?(/\.(jpg|jpeg)\z/i)
+      next if name.match?(/_(?:present|thumb)\.jpg\z/i)
+
+      name
+    end.sort
+  end
 end
